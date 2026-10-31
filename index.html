@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="bs">
+<html lang="rom">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;800&family=Cormorant+Garamond:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-<link rel="icon" type="image/jpeg" href="logo.jpg">
+<link rel="icon" type="image/png" href="logo.png">
 <style>
 :root{
   --green:#0a5b43;
@@ -29,8 +29,8 @@ a{color:inherit;text-decoration:none}
 button{font:inherit;cursor:pointer}
 
 .masthead{
-  height:342px;
-  background:#042f25 url('header.jpg') center center/cover no-repeat;
+  height:clamp(170px,19.86vw,305px);
+  background:#042f25 url('header.jpg') center center/100% 100% no-repeat;
 }
 
 .navwrap{
@@ -63,21 +63,24 @@ button{font:inherit;cursor:pointer}
   white-space:nowrap;
 }
 .nav button:first-child{border-radius:24px 0 0 24px}
-.nav button:last-child{border-right:1px solid #e5dccb;border-radius:0 24px 24px 0}
+.nav button:last-of-type{border-right:1px solid #e5dccb;border-radius:0 24px 24px 0}
 .nav button[aria-current="page"]{
   background:var(--green);
   color:#fff;
 }
 .nav i{font-size:15px;opacity:.95}
+.nav-logo{flex:0 0 auto;align-self:center;margin-left:12px;display:flex;align-items:center;justify-content:center;width:43px;height:43px;border:1px solid #d7bd71;border-radius:50%;overflow:hidden;background:#fff;box-shadow:0 1px 4px #0002}
+.nav-logo img{width:100%;height:100%;object-fit:contain}
+.tile i{font-size:31px;color:#b08b2f}
 .brand-logo{display:flex;align-items:center;justify-content:center;flex:none;padding:3px 8px 3px 15px}.brand-logo img{width:48px;height:48px;object-fit:contain;border-radius:50%;background:white;border:1px solid #d6bd73}
 
 .hero{
-  min-height:470px;
+  min-height:480px;
   display:flex;
   align-items:center;
   background:
-   linear-gradient(90deg, rgba(251,246,232,.96) 0%, rgba(251,246,232,.90) 22%, rgba(251,246,232,.60) 43%, rgba(251,246,232,.18) 68%, rgba(251,246,232,0) 86%),
-   url('hero.jpg') center center/cover no-repeat;
+   linear-gradient(90deg, rgba(251,246,232,.98) 0%, rgba(251,246,232,.95) 20%, rgba(251,246,232,.76) 32%, rgba(251,246,232,.24) 48%, rgba(251,246,232,0) 66%),
+   url('hero.jpg') right center / 76% auto no-repeat; background-color:#f7eacf;
 }
 .hero-inner{
   width:100%;
@@ -94,12 +97,12 @@ button{font:inherit;cursor:pointer}
 }
 .hero h1{
   margin:2px 0 2px;
-  font-family:'Cinzel', Georgia, serif;
-  font-size:74px;
+  font-family:Georgia, 'Times New Roman', serif;
+  font-size:clamp(45px,5vw,74px);
   line-height:.98;
   color:#08392e;
   letter-spacing:1px;
-  max-width:610px;
+  max-width:760px;
 }
 .tagline{
   margin:6px 0 22px;
@@ -177,10 +180,10 @@ footer{background:#062d23;color:#eadcad;text-align:center;padding:25px 16px;font
   .nav{justify-content:flex-start}
 }
 @media (max-width:760px){
-  .masthead{height:175px;background-size:cover;background-position:center}
+  .masthead{height:175px;background-size:auto 175px;background-position:center}
   .nav{padding:8px}.brand-logo img{width:40px;height:40px}
   .nav button{padding:12px 16px;font-size:16px;min-height:48px}
-  .hero{min-height:560px;background-position:center right 60%;background-image:linear-gradient(90deg, rgba(251,246,232,.97) 0%, rgba(251,246,232,.88) 50%, rgba(251,246,232,.55) 70%, rgba(251,246,232,.15) 100%), url('hero.jpg')}
+  .hero{min-height:560px;background-position:center right 60%;background-image:linear-gradient(90deg, rgba(251,246,232,.97) 0%, rgba(251,246,232,.85) 45%, rgba(251,246,232,.35) 75%, rgba(251,246,232,.05) 100%), url('hero.jpg');background-size:cover;background-position:60% center}
   .hero-inner{padding:34px 22px 22px}
   .welcome{font-size:28px}
   .hero h1{font-size:55px;max-width:330px}
@@ -192,40 +195,58 @@ footer{background:#062d23;color:#eadcad;text-align:center;padding:25px 16px;font
   .tile strong{font-size:19px}
   .tile span:last-child{font-size:14px}
 }
+
+.status-note{color:#4e594e;line-height:1.5;font-size:20px}
+@media(min-width:1201px){.tiles{grid-template-columns:repeat(5,minmax(0,1fr))}}
+.hero{background-position:center, center right;background-size:auto,cover}
+@media(max-width:760px){
+  .hero{background-size:auto,cover;background-position:center,63% center}
+  .nav{flex-wrap:nowrap}
+  .brand-logo{position:sticky;right:0;background:#fbfaf6;z-index:2}
+}
 </style>
 </head>
 <body>
 <header class="masthead" aria-label="ROMANO ISLAM zaglavlje"></header>
 <div class="navwrap">
   <nav class="nav" id="navigation" aria-label="Glavni meni">
-    <button data-page="home" aria-current="page"><i class="fa-solid fa-house"></i>Početna</button>
-    <button data-page="quran"><i class="fa-solid fa-book-quran"></i>Kur’an</button>
-    <button data-page="tafsir"><i class="fa-regular fa-file-lines"></i>Tefsir</button>
+    <button data-page="home" aria-current="page"><i class="fa-solid fa-house"></i>Angluni Strana</button>
+    <button data-page="listen"><i class="fa-solid fa-headphones"></i>Šun o Kurani</button>
+    <button data-page="quran"><i class="fa-solid fa-book-quran"></i>Čitin o Kurani</button>
+    <button data-page="tafsir"><i class="fa-regular fa-file-lines"></i>Tefsirja</button>
+    <button data-page="hadis"><i class="fa-solid fa-book-open"></i>Hadisja</button>
+    <button data-page="quranlinks"><i class="fa-solid fa-link"></i>Kur’an s Kur’anom</button>
+    <button data-page="search"><i class="fa-solid fa-magnifying-glass"></i>Rode o Lafja</button>
     <button data-page="ehlibejt"><i class="fa-solid fa-users"></i>Ehli Bejt</button>
     <button data-page="poslanici"><i class="fa-solid fa-mosque"></i>Poslanici</button>
     <button data-page="historija"><i class="fa-solid fa-hourglass-half"></i>Historija</button>
     <button data-page="vodici"><i class="fa-solid fa-list"></i>Vodiči</button>
     <button data-page="preuzimanje"><i class="fa-solid fa-download"></i>Preuzimanje</button>
     <button data-page="onama"><i class="fa-solid fa-circle-info"></i>O nama</button>
-    <a class="brand-logo" href="#home" aria-label="ROMANO ISLAM logo, početna"><img src="logo.jpg" alt="ROMANO ISLAM logo"></a>
+    <a class="brand-logo" href="#home" aria-label="ROMANO ISLAM logo, početna"><img src="logo.png" alt="ROMANO ISLAM logo"></a>
+  
   </nav>
 </div>
 
 <main id="homePage">
   <section class="hero">
     <div class="hero-inner">
-      <p class="welcome">Dobro došli na</p>
+      <p class="welcome">Bahtale Avilen ko</p>
       <h1>ROMANO ISLAM</h1>
       <p class="tagline">Kur’an je naš vodič – znanje je naša snaga</p>
       <div class="ornament"></div>
       <div class="verse">„O vi koji vjerujete, bojte se Allaha i tražite sredstvo Njegovoj blizini.“<small>(El-Maide, 5:35)</small></div>
-      <button class="cta" data-page="quran"><i class="fa-solid fa-book-quran"></i>Čitaj Kur’an</button>
+      <button class="cta" data-page="quran"><i class="fa-solid fa-book-quran"></i>Čitin o Kurani</button>
     </div>
   </section>
 
   <section class="tiles" aria-label="Rubrike">
-    <button class="tile" data-page="quran"><i class="fa-solid fa-book-quran"></i><strong>Kur’an</strong><span>Čitaj, uči i istražuj</span></button>
-    <button class="tile" data-page="tafsir"><i class="fa-regular fa-file-lines"></i><strong>Tefsir</strong><span>Objašnjenje ajeta</span></button>
+    <button class="tile" data-page="quran"><i class="fa-solid fa-book-quran"></i><strong>Čitin o Kurani</strong><span>Čitin o Kurani</span></button>
+    <button class="tile" data-page="listen"><i class="fa-solid fa-headphones"></i><strong>Šun o Kurani</strong><span>Šun o Kurani</span></button>
+    <button class="tile" data-page="tafsir"><i class="fa-regular fa-file-lines"></i><strong>Tefsirja</strong><span>Tefsirja</span></button>
+    <button class="tile" data-page="hadis"><i class="fa-solid fa-book-open"></i><strong>Hadisja</strong><span>Hadisja</span></button>
+    <button class="tile" data-page="quranlinks"><i class="fa-solid fa-link"></i><strong>Kur’an s Kur’anom</strong><span>Kur’an s Kur’anom</span></button>
+    <button class="tile" data-page="search"><i class="fa-solid fa-magnifying-glass"></i><strong>Rode o Lafja</strong><span>Rode o Lafja</span></button>
     <button class="tile" data-page="ehlibejt"><i class="fa-solid fa-users"></i><strong>Ehli Bejt</strong><span>Znanje i smjernice</span></button>
     <button class="tile" data-page="poslanici"><i class="fa-solid fa-mosque"></i><strong>Poslanici</strong><span>Životi i poruke</span></button>
     <button class="tile" data-page="historija"><i class="fa-solid fa-hourglass-half"></i><strong>Historija</strong><span>Događaji i pouke</span></button>
@@ -242,12 +263,17 @@ footer{background:#062d23;color:#eadcad;text-align:center;padding:25px 16px;font
   </div>
 </main>
 
-<footer><img src="logo.jpg" alt="ROMANO ISLAM logo" style="width:90px;height:79px;object-fit:contain;background:white;border-radius:12px;display:block;margin:0 auto 12px">ROMANO ISLAM · Kur’an · Ilm · Historija · Vodiči</footer>
+<footer><img src="logo.png" alt="ROMANO ISLAM logo" style="width:90px;height:79px;object-fit:contain;border-radius:12px;display:block;margin:0 auto 12px">ROMANO ISLAM · Kur’an · Ilm · Historija · Vodiči</footer>
 
 <script>
+const pending='<p class="status-note">Ova rubrika je pripremljena. Izvorni sadržaj aplikacije još nije prenesen jer ga nismo mogli provjeriti. Nijedan ajet ili prijevod nije izmišljen.</p>';
 const sections={
-  quran:{title:'Kur’an',subtitle:'Čitaj, uči i istražuj',body:'<h3>Kur’an</h3><p>Ovdje će biti sadržaj za čitanje i istraživanje Kur’ana.</p>'},
-  tafsir:{title:'Tefsir',subtitle:'Objašnjenje ajeta',body:'<h3>Tefsir</h3><p>Ovdje će biti objašnjenja ajeta.</p>'},
+  listen:{title:'Šun o Kurani',subtitle:'Šun o Kurani',body:pending},
+  hadis:{title:'Hadisja',subtitle:'Hadisja',body:pending},
+  quranlinks:{title:'Kur’an s Kur’anom',subtitle:'Kur’an s Kur’anom',body:pending},
+  search:{title:'Rode o Lafja',subtitle:'Rode o Lafja',body:pending},
+  quran:{title:'Čitin o Kurani',subtitle:'Čitin o Kurani',body:pending},
+  tafsir:{title:'Tefsir',subtitle:'Tefsirja',body:'<h3>Tefsir</h3><p>Ovdje će biti objašnjenja ajeta.</p>'},
   ehlibejt:{title:'Ehli Bejt',subtitle:'Znanje i smjernice',body:'<h3>Ehli Bejt</h3><p>Ovdje će biti sadržaji o Ehli Bejtu.</p>'},
   poslanici:{title:'Poslanici',subtitle:'Životi i poruke',body:'<h3>Poslanici</h3><p>Ovdje će biti sadržaji o poslanicima.</p>'},
   historija:{title:'Historija',subtitle:'Događaji i pouke',body:'<h3>Historija</h3><p>Ovdje će biti historijski sadržaji.</p>'},
