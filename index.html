@@ -371,7 +371,23 @@ button:focus-visible,select:focus-visible,input:focus-visible{outline:3px solid 
 #sectionPage.ri-amendar-page #sectionBody{padding:0 3px 4px!important}
 #sectionPage.ri-amendar-page .amendar-text{font-size:clamp(16px,4.25vw,19px)!important;line-height:1.55!important}
 }
-</style></head>
+<style id="ri-amendar-precise-fix-2026">
+/* Isključivo Amendar: naslov normalne veličine, glavni tekst širok. */
+#sectionPage.ri-amendar-page .section-hero{padding:18px 14px 14px!important;background:#063b2c!important}
+#sectionPage.ri-amendar-page .section-hero h1{font-family:Georgia,serif!important;font-size:26px!important;line-height:1.2!important;text-transform:none!important;color:#e6d0a1!important;font-weight:500!important;letter-spacing:normal!important}
+#sectionPage.ri-amendar-page .section-hero p{font-size:16px!important;line-height:1.3!important;color:#e6d0a1!important;margin:5px 0 0!important}
+#sectionPage.ri-amendar-page .content{max-width:100%!important;width:100%!important;padding-left:0!important;padding-right:0!important}
+#sectionPage.ri-amendar-page #sectionBody{background:#063b2c!important;border:none!important;box-shadow:none!important;border-radius:0!important;width:100%!important;max-width:100%!important;padding:0 10px 10px!important}
+#sectionPage.ri-amendar-page .amendar-text{font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif!important;font-size:19px!important;font-weight:400!important;line-height:1.53!important;text-align:center!important;color:#e5e8df!important;max-width:none!important;width:100%!important;margin:0!important;padding:0!important}
+#sectionPage.ri-amendar-page .amendar-text p{margin:0 0 1.3em!important}
+@media(max-width:760px){
+ #sectionPage.ri-amendar-page .section-hero{padding:13px 10px 11px!important}
+ #sectionPage.ri-amendar-page .section-hero h1{font-size:24px!important}
+ #sectionPage.ri-amendar-page .section-hero p{font-size:15px!important}
+ #sectionPage.ri-amendar-page #sectionBody{padding:0 6px 8px!important}
+ #sectionPage.ri-amendar-page .amendar-text{font-size:17px!important;line-height:1.56!important}
+}
+</style></style></head>
 <body>
 <header class="masthead" aria-label="ROMANO ISLAM zaglavlje"></header>
 <div class="masthead-credit"><span>By Huseini Halil</span><span>romanoislam@google.com</span></div><div class="navwrap"><nav class="nav" id="navigation" aria-label="Glavno meni">
