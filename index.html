@@ -362,29 +362,14 @@ button:focus-visible,select:focus-visible,input:focus-visible{outline:3px solid 
 #ri-amendar-credits[hidden]{display:none!important}
 @media(max-width:760px){#ri-amendar-credits{font-size:12px;padding:7px 20px 0;margin-bottom:30px}}
 </style><style id="ri-amendar-green-card-only">
-/* Samo Amendar: izgled kao na odobrenom zelenom primjeru. */
-#sectionPage.ri-amendar-page{background:linear-gradient(90deg,#072f25 0%,#0a4c39 50%,#072f25 100%)}
-#sectionPage.ri-amendar-page .section-hero,
-#sectionPage.ri-amendar-page .back{display:none!important}
-#sectionPage.ri-amendar-page .content{background:transparent;padding-top:0}
-#sectionPage.ri-amendar-page #sectionBody{background:transparent;border:0;box-shadow:none;padding:0 18px 10px;max-width:100%;overflow:visible}
-#sectionPage.ri-amendar-page .amendar-top{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:0 0 10px}
-#sectionPage.ri-amendar-page .amendar-logo{width:min(220px,54vw);height:auto;object-fit:contain;display:block;margin:0 auto 10px;filter:drop-shadow(0 1px 2px rgba(0,0,0,.25))}
-#sectionPage.ri-amendar-page .amendar-title{margin:0;color:#e5c77a;font:700 clamp(38px,8vw,56px) Georgia,serif;letter-spacing:.02em}
-#sectionPage.ri-amendar-page .amendar-subtitle{margin:8px 0 18px;color:#e5c77a;font:400 clamp(18px,3.8vw,24px) Georgia,serif;letter-spacing:.18em}
-#sectionPage.ri-amendar-page .amendar-text{max-width:700px;margin:0 auto;color:#eef2ea;text-align:center;font:400 clamp(18px,3.9vw,27px)/1.55 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;overflow-wrap:anywhere}
-#sectionPage.ri-amendar-page .amendar-text p{margin:0 0 1.28em}
-#sectionPage.ri-amendar-page .amendar-text p:last-child{margin-top:.5em;color:#eef2ea;text-align:center;font-weight:500;letter-spacing:.01em}
-#sectionPage.ri-amendar-page #ri-amendar-credits{max-width:700px;margin:18px auto 24px;padding:0 18px;color:#dec27c;background:transparent;text-align:left;font:400 14px/1.7 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
-#sectionPage.ri-amendar-page #ri-amendar-credits p{margin:0 0 16px}
-#sectionPage.ri-amendar-page #ri-amendar-credits a,
-#sectionPage.ri-amendar-page #ri-amendar-credits span{color:inherit;text-decoration:none;cursor:default}
+/* Only the Amendar reading panel; no changes elsewhere. */
+#sectionPage.ri-amendar-page #sectionBody{background:transparent!important;border:0!important;box-shadow:none!important;border-radius:0!important;max-width:100%!important;width:100%!important;padding:0 8px 6px!important;overflow:visible!important}
+#sectionPage.ri-amendar-page .amendar-text{max-width:none!important;width:100%!important;margin:0!important;padding:0!important;color:#e6e5d9!important;text-align:center!important;font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif!important;font-weight:400!important;line-height:1.55!important;overflow-wrap:break-word!important}
+#sectionPage.ri-amendar-page .amendar-text p{margin:0 0 1.25em!important}
+#sectionPage.ri-amendar-page .amendar-text p:last-child{text-align:center!important;color:#e6e5d9!important;font-weight:400!important}
 @media(max-width:760px){
- #sectionPage.ri-amendar-page #sectionBody{padding:6px 16px 6px}
- #sectionPage.ri-amendar-page .amendar-logo{width:min(230px,56vw);margin-bottom:8px}
- #sectionPage.ri-amendar-page .amendar-subtitle{margin:6px 0 16px;letter-spacing:.12em}
- #sectionPage.ri-amendar-page .amendar-text{font-size:17px;line-height:1.58;max-width:680px}
- #sectionPage.ri-amendar-page #ri-amendar-credits{font-size:12px;line-height:1.65;padding:0 16px;margin:14px auto 20px}
+#sectionPage.ri-amendar-page #sectionBody{padding:0 3px 4px!important}
+#sectionPage.ri-amendar-page .amendar-text{font-size:clamp(16px,4.25vw,19px)!important;line-height:1.55!important}
 }
 </style></head>
 <body>
@@ -464,7 +449,7 @@ const sections={
  historija:{title:'Historija',subtitle:'Historija',body:'<h3>Historija</h3><p>Historijski navodi moraju imati izvore i ne smiju biti predstavljeni kao Allahove riječi.</p>'},
  vodici:{title:'Vodiči',subtitle:'Vodiči',body:'<h3>Vodiči</h3><p>Rubrika za praktične upute.</p>'},
  preuzimanje:{title:'Preuzimanje',subtitle:'Preuzimanje',body:'<h3>Preuzimanje</h3><p>Materijali za koje imamo pravo objavljivanja bit će ovdje.</p>'},
- amendar:{title:'Amendar',subtitle:'ROMANO ISLAM',body:`<div class="amendar-top"><img class="amendar-logo" alt="ROMANO ISLAM logo"><h2 class="amendar-title">ROMANO ISLAM</h2><p class="amendar-subtitle">O Kur’ani čitibase</p></div><div class="amendar-text"><p>I Zahvala pribadini samo e Allahese o Gospodari e Svetongoro so umogučinđa mange te avav ki akija ideja te čerav akija Aplikacija hem web stranica www.romano-islam.de sa amare Romenge ko celo Sveto te ačovel amare čhavenge unukonge hem okolenge so ka aven palo amende.</p><p>Šaj nekase ka smetini o prevod ko bosanski Romane ili ka arakel greške ili ka vačeri nane šukar prjevod ko romane ama ka objasninav inšallah <br>Te tumačina ki romani čhib odova nane moguče odova amenge Jasno se isi romane dijalektja kobor te mange da bi ko orginal romane te prevodina jek primer. amare cave na djanena i pravo romani čhib pa čak ni me ni amen ako jek lafi isi romane so amare čhave nikad na šunđe sar ka tumačinen ki čhib so ka haljoven <br>Nane šansa… ali ako ine sar me so mukljum ko bosanski romani čhib ako na haljola jek lafi isile mogučnost kotar google ili bilo kotar te prevedini kotar bosanski ki čhib savo ov haljola ili kaj bajrola odolese mo cilj ine te tumačinav o kur’ani <br>Ki čhib sar so vačeraja amare čhavenca.</p><p>me ka zamolinav me praljen me penjen ma te zamerinen mange ako isi nesave lafja ili ko slovja greška odova sigurno nane mandar čhivdo namerno hem rodava tumendar Halali.</p><p>Ki sura EL AHZAB 33:5 ajeti<br>o prvo sar o allah vačeri.<br>nane tumenge greh(Haram)ano odova so grešinen, nego ano odova so namerno čerena o vilje tumare.</p><p>Odolese mangav te penav mi namera i tani čisto ali manuš šaj te grešini.</p><p>O dujto vičinen ljen prema ljenge dada odova i tano po pravedno ko Allah. <br>da bi o allah ko sudnjo dive vičini man ko anav HALIL IBN RAMADAN<br>odolese akate čičum o anav me dadeso e Ramadaneso Halil ibn Ramadan so značini o čhavo e Ramadaneso.</p><p>inšallah ka del lje o naj šužo than kaj ka mangel o Allah.</p><p>a isto naj šužo than te del hem me dajake i me Rahmetlienge.</p><p>a isto tumare dadenge dajenge i tumare Rametlienge o naj šužo than kaj ka mangel o Allah o Milosno, Samilosno, Gospodari e Svetongoro Amin !</p><p>BY HUSEINI HALIL IBN RAMADAN</p></div>`},
+ amendar:{title:'Amendar',subtitle:'ROMANO ISLAM',body:"<div class=\"amendar-text\"><p>I Zahvala pribadini samo e Allahese o Gospodari e Svetongoro so umogučinđa mange te avav ki akija ideja te čerav akija Aplikacija hem web stranica www.romano-islam.de sa amare Romenge ko celo Sveto te ačovel amare čhavenge unukonge hem okolenge so ka aven palo amende.</p><p>Šaj nekase ka smetini o prevod ko bosanski Romane ili ka arakel greške ili ka vačeri nane šukar prjevod ko romane ama ka objasninav inšallah <br>Te tumačina ki romani čhib odova nane moguče odova amenge Jasno se isi romane dijalektja kobor te mange da bi ko orginal romane te prevodina jek primer.  amare cave na djanena i pravo romani čhib pa čak ni me ni amen ako jek lafi isi romane so amare čhave nikad na šunđe sar ka tumačinen ki čhib so ka haljoven <br>Nane šansa… ali ako ine sar me so mukljum ko bosanski romani čhib ako na haljola jek lafi isile mogučnost kotar google ili bilo kotar te prevedini kotar bosanski ki čhib savo ov haljola ili kaj bajrola odolese mo cilj ine te tumačinav o kur’ani <br>Ki čhib sar so vačeraja amare čhavenca. </p><p>me ka zamolinav me praljen me penjen ma te zamerinen mange ako isi nesave lafja ili ko slovja greška odova sigurno nane mandar čhivdo namerno hem rodava tumendar Halali.</p><p>Ki sura EL AHZAB 33:5 ajeti<br>o prvo sar o allah vačeri.<br>nane tumenge greh(Haram)ano odova so grešinen, nego ano odova so namerno čerena o vilje tumare.</p><p>Odolese mangav te penav mi namera i tani čisto ali manuš šaj te grešini.</p><p>O dujto vičinen ljen prema ljenge dada odova i tano po pravedno ko Allah. <br>da bi o allah ko sudnjo dive vičini man ko anav HALIL IBN RAMADAN<br>odolese akate čičum o anav me dadeso e Ramadaneso Halil ibn Ramadan so značini o čhavo e Ramadaneso .</p><p>inšallah ka del lje o naj šužo than kaj ka mangel o Allah .</p><p>a isto naj šužo than te del hem me dajake i me Rahmetlienge .</p><p>a isto tumare dadenge dajenge i tumare Rametlienge o naj šužo than kaj ka mangel o Allah o Milosno, Samilosno,Gospodari e Svetongoro Amin !</p><p>BY HUSEINI HALIL IBN RAMADAN</p></div>"},
  onama:{title:'O nama',subtitle:'ROMANO ISLAM',body:'<h3>ROMANO ISLAM</h3><p>Ovo je nova zasebna web-stranica. Postojeća aplikacija nije izmijenjena niti povezana.</p>'}
 };
 let surahs=null,currentVerses=[],currentPage='home',fontSize=29;
@@ -501,11 +486,6 @@ function go(page){
     document.getElementById('sectionTitle').textContent=s.title;
     document.getElementById('sectionSubtitle').textContent=s.subtitle;
     document.getElementById('sectionBody').innerHTML=s.body;
-    if(page==='amendar'){
-      const logo=document.querySelector('#sectionBody .amendar-logo');
-      const footerLogo=document.querySelector('footer img');
-      if(logo && footerLogo) logo.src=footerLogo.src;
-    }
     if(['quran','listen','search'].includes(page))initReader(page);
   }
   history.replaceState(null,'','#'+page);
