@@ -3,3 +3,5 @@
 const removed=['e_knjige.html','taberi/historija.html','ehli_bejt.html','hadisja.html','tefsirja.html','readers/offline.html'];
 drawer.querySelectorAll('a.portal-drawer-link').forEach(link=>{const pathname=new URL(link.getAttribute('href'),document.baseURI).pathname;if(removed.some(path=>pathname.endsWith('/'+path)))link.remove();});
 })();
+
+(()=>{const script=document.createElement("script");script.src=new URL("web-labels.js?v=20261111",document.currentScript.src).href;document.head.append(script);})();
