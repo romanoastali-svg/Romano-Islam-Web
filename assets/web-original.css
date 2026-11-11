@@ -17,7 +17,7 @@ button{font:inherit;cursor:pointer}
 
 .masthead{
   height:clamp(170px,19.86vw,305px);
-  background:#042f25 url('images/8d78623c45de066d161a.jpg) center center/100% 100% no-repeat;
+  background:#042f25 url('images/8d78623c45de066d161a.jpg') center center/100% 100% no-repeat;
 }
 
 .navwrap{
@@ -67,7 +67,7 @@ button{font:inherit;cursor:pointer}
   align-items:center;
   background:
    linear-gradient(90deg, rgba(251,246,232,.98) 0%, rgba(251,246,232,.95) 20%, rgba(251,246,232,.76) 32%, rgba(251,246,232,.24) 48%, rgba(251,246,232,0) 66%),
-   url('images/0da39b373d3373a6a811.jpg) right center / 76% auto no-repeat; background-color:#f7eacf;
+   url('images/0da39b373d3373a6a811.jpg') right center / 76% auto no-repeat; background-color:#f7eacf;
 }
 .hero-inner{
   width:100%;
@@ -170,7 +170,7 @@ footer{background:#04271f;color:#eadcad;text-align:center;padding:28px 16px;font
   .masthead{height:175px;background-size:auto 175px;background-position:center}
   .nav{padding:8px}.brand-logo img{width:40px;height:40px}
   .nav button{padding:12px 16px;font-size:16px;min-height:48px}
-  .hero{min-height:560px;background-position:center right 60%;background-image:linear-gradient(90deg, rgba(251,246,232,.97) 0%, rgba(251,246,232,.85) 45%, rgba(251,246,232,.35) 75%, rgba(251,246,232,.05) 100%), url('images/0da39b373d3373a6a811.jpg);background-size:cover;background-position:60% center}
+  .hero{min-height:560px;background-position:center right 60%;background-image:linear-gradient(90deg, rgba(251,246,232,.97) 0%, rgba(251,246,232,.85) 45%, rgba(251,246,232,.35) 75%, rgba(251,246,232,.05) 100%), url('images/0da39b373d3373a6a811.jpg');background-size:cover;background-position:60% center}
   .hero-inner{padding:34px 22px 22px}
   .welcome{font-size:28px}
   .hero h1{font-size:55px;max-width:330px}
@@ -194,7 +194,7 @@ footer{background:#04271f;color:#eadcad;text-align:center;padding:28px 16px;font
 
 /* Reference-aligned hero: image starts to the right of the readable content. */
 .hero{position:relative;isolation:isolate;overflow:hidden;background:#f3e8d1 !important}
-.hero::before{content:"";position:absolute;z-index:-2;top:0;bottom:0;left:0;right:0;background:url('images/0da39b373d3373a6a811.jpg) center/cover no-repeat}
+.hero::before{content:"";position:absolute;z-index:-2;top:0;bottom:0;left:0;right:0;background:url('images/0da39b373d3373a6a811.jpg') center/cover no-repeat}
 .hero::after{content:"";position:absolute;z-index:-1;inset:0;background:linear-gradient(90deg,#fbf5e6 0%,rgba(251,245,230,.96) 17%,rgba(251,245,230,.67) 31%,rgba(251,245,230,.10) 52%,rgba(251,245,230,0) 72%)}
 .hero h1{font-family:Georgia,'Times New Roman',serif;max-width:none;font-size:clamp(40px,5vw,74px);white-space:nowrap}
 .nav{max-width:none}
@@ -322,7 +322,7 @@ button:focus-visible,select:focus-visible,input:focus-visible{outline:3px solid 
   .masthead{height:auto!important;aspect-ratio: 6.25 / 1!important;background-size:100% 100%!important; background-repeat:no-repeat!important;}
   body>footer{padding:10px 8px 12px!important;min-height:0!important;}
   body>footer img{width:auto!important;height:auto!important;max-width:64px!important;max-height:64px!important;object-fit:contain!important;margin:0 auto 6px!important;}
-  .hero{background-image:linear-gradient(90deg,rgba(238,229,207,.93) 0%,rgba(223,211,188,.79) 52%,rgba(14,43,36,.53) 100%),url('images/0da39b373d3373a6a811.jpg)!important;background-position:center center,center right!important;background-size:cover,cover!important;background-repeat:no-repeat!important;}
+  .hero{background-image:linear-gradient(90deg,rgba(238,229,207,.93) 0%,rgba(223,211,188,.79) 52%,rgba(14,43,36,.53) 100%),url('images/0da39b373d3373a6a811.jpg')!important;background-position:center center,center right!important;background-size:cover,cover!important;background-repeat:no-repeat!important;}
   .hero::before,.hero::after{display:none!important;}
   .hero .tagline,.hero .verse,.hero .verse small{color:#08281f!important;text-shadow:0 1px 1px rgba(250,244,226,.18)!important;}
   .hero .tagline,.hero .verse{font-weight:650!important;}
