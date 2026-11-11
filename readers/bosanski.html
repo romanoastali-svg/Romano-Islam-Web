@@ -103,7 +103,7 @@ const source=new URL(frame.dataset.riReaderSrc,location.href);
 async function connect(){
  await new Promise((resolve,reject)=>{const script=document.createElement('script');script.src=new URL('romane-prevod.js',location.href).href+'?v='+Date.now();script.onload=resolve;script.onerror=()=>reject(Error('Romane prijevod nije učitan'));document.head.append(script);});
  await new Promise((resolve,reject)=>{const script=document.createElement('script');script.src=new URL('ajeti-ajeteja.js',location.href).href+'?v='+Date.now();script.onload=resolve;script.onerror=()=>reject(Error('Ajeti Ajeteja podaci nisu učitani'));document.head.append(script);});
- await new Promise((resolve,reject)=>{const script=document.createElement('script');script.src=new URL('korkut-reader.js',location.href).href+'?v=jezici-20261111';script.onload=resolve;script.onerror=()=>reject(Error('Korkut povezivanje nije učitano'));document.head.append(script);});
+ await new Promise((resolve,reject)=>{const script=document.createElement('script');script.src=new URL('korkut-reader.js',location.href).href+'?v=standard-romane-20261111';script.onload=resolve;script.onerror=()=>reject(Error('Korkut povezivanje nije učitano'));document.head.append(script);});
  const response=await fetch(source.href.split('#')[0],{cache:'no-cache'});if(!response.ok)throw Error('Čitač nije učitan');
  let html=await response.text();const match=html.match(/(<script\b[^>]*\bid=["']appData["'][^>]*>)([\s\S]*?)(<\/script>)/i);if(!match)throw Error('Nedostaje izvor čitača');
  const data=JSON.parse(match[2]),translated={...data.romane};
@@ -124,7 +124,7 @@ async function connect(){
  if(!declaration.test(ajeti[2]))throw Error('Nedostaje mjesto za poveznice');
  const code=ajeti[2].replace(declaration,()=> 'const passages='+JSON.stringify(connections).replace(/</g,'\\u003c')+';');
  html=html.replace(ajeti[0],()=>ajeti[1]+code+ajeti[3]);
- html=window.riPatchKorkutHtml(html,new URL('korkut-reader.js',location.href).href+'?v=jezici-20261111');
+ html=window.riPatchKorkutHtml(html,new URL('korkut-reader.js',location.href).href+'?v=standard-romane-20261111');
  const base=source.href.split('#')[0].replace(/&/g,'&amp;').replace(/"/g,'&quot;');
  html=html.replace(/<head>/i,()=>'<head><base href="'+base+'"><script>location.hash="bosanski";<\/script>');
  frame.srcdoc=html;
