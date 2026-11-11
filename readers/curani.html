@@ -119,6 +119,9 @@ async function connect(){
  const code=ajeti[2].replace(declaration,()=> 'const passages='+JSON.stringify(connections).replace(/</g,'\\u003c')+';');
  html=html.replace(ajeti[0],()=>ajeti[1]+code+ajeti[3]);
  html=window.riPatchKorkutHtml(html,new URL('korkut-reader.js',location.href).href+'?v=standard-romane-20261111');
+ const oldSearchTarget="if(ed==='rom'){renderRomane(s,a);riSearchRoute('romane');}else{edition=ed;settings.readerCompare=false;renderReader(s,a);riSearchRoute('reader');}";
+ if(html.split(oldSearchTarget).length!==2)throw Error('Neprepoznato otvaranje rezultata pretrage');
+ html=html.replace(oldSearchTarget,"renderRomane(s,a);riSearchRoute('romane');");
  const base=source.href.split('#')[0].replace(/&/g,'&amp;').replace(/"/g,'&quot;');
  html=html.replace(/<head>/i,()=>'<head><base href="'+base+'"><script>location.hash="romane";<\/script>');
  frame.srcdoc=html;
