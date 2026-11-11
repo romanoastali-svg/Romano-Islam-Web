@@ -1,5 +1,5 @@
-// Uređuj samo ovaj fajl. Ključ sure -> ključ ajeta -> tačan tekst prijevoda.
-// Nakon dopune sačuvaj fajl i osvježi čitač. Ne mijenjaj naziv ROMANE_PREVOD.
+// Dopunjavaj samo ovaj fajl. Sure -> ajeti -> tačan Romane prijevod.
+// Sačuvani su svi dosadašnji potvrđeni prijevodi.
 window.ROMANE_PREVOD = {
   "1": {
     "1": "Ano anav e Allahesoro,Milostivo hem ,Milosrdno!",
