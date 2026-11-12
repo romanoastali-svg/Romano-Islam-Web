@@ -31,15 +31,6 @@
 /* WEB Quran book graphic in place of plain header text */
 .web-quran-book{width:clamp(84px,9vw,135px);height:auto;display:block;max-width:100%}
 
-/* WEB-only: word and sentence search; no changes to APP or reader design. */
-.web-word-search{padding:16px clamp(14px,3vw,56px);background:#123b2a;border-bottom:2px solid #b99551;color:#f3e0b7}
-.web-word-search[hidden]{display:none}.web-word-search label{font-weight:700;display:block;color:#efce83;margin-bottom:10px}
-.web-word-form-row{display:flex;gap:9px;flex-wrap:wrap}.web-word-form-row input{flex:1 1 280px;min-width:0;background:#092b20;border:1px solid #bd9d5f;color:#fff1cf;padding:12px 14px;border-radius:7px;font-size:16px}
-.web-word-form-row button,.web-word-result,.web-word-more{cursor:pointer;border:1px solid #b99551;border-radius:7px;background:#e5c47b;color:#143625;padding:10px 14px;font-weight:700}
-#web-word-status{min-height:1.5em}#web-word-results{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:9px;max-height:45vh;overflow:auto}
-.web-word-result{text-align:start;display:flex;flex-direction:column;gap:7px;background:#214b37;color:#f7df9d}.web-word-result small{font-size:13px;font-weight:400;color:#f4ead2;line-height:1.4}.web-word-result:hover{background:#315e44}.web-word-more{width:100%}
-
-
 /* Rode o lafja — tekstualna pretraga */
 #hadisja-reader .hj-word-panel{margin:20px 0;padding:16px;border:1px solid #bb995a;border-radius:12px;background:#113729}
 #hadisja-reader .hj-word-panel>label{display:block;font-weight:700;color:#ebca7a;margin-bottom:10px}
@@ -53,8 +44,6 @@
 #hadisja-reader .hj-word-result:hover{background:#2b6046}
 #hadisja-reader .hj-word-status{min-height:20px}
 
-/* Samo WEB zaglavlje: knjiga Hadisja lijevo */
-.web-quran{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;width:max-content;max-width:100%;line-height:1.1}
-.web-hadisja-book{display:block;width:clamp(100px,10.8vw,153px);height:clamp(87px,9vw,132px);object-fit:contain;filter:drop-shadow(0 5px 5px rgba(0,0,0,.35))}
-.web-hadisja-caption{display:block;color:#f5d78e;font-family:Georgia,serif;font-weight:700;letter-spacing:.12em;font-size:clamp(14px,1.6vw,21px);text-align:center}
-@media(max-width:800px){.web-hadisja-book{width:91px;height:78px}.web-hadisja-caption{font-size:13px}}
+/* Slika knjige iz glavnog WEB zaglavlja; originalna slika ostaje netaknuta. */
+.web-source-books{display:block;width:clamp(84px,9vw,135px);height:clamp(84px,9vw,135px);object-fit:cover;object-position:15.5% center}
+#hadisja-reader .hj-vip-lock{display:block;width:48px;height:56px;margin:0 auto 12px}
