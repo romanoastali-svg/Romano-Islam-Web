@@ -1,4 +1,3 @@
-
 /* HADISJA: full-collection indexed reader. No changes to Quran, Tabari or APP design. */
 (()=>{'use strict';
 const ROOT=document.getElementById('hadisja-reader');if(!ROOT)return;
@@ -164,6 +163,9 @@ const CHAPTER_GLOSSARY={
  'obligatory charity tax':['كتاب الزكاة','Zekât','Zekat'],
  'obligatory charity':['كتاب الزكاة','Zekât','Zekat']
 };
+// Arabic book titles matched by section ID: https://sunnah.com/muslim
+const MUSLIM_ARABIC_CHAPTERS=["المقدمة", "كتاب الإيمان", "كتاب الطهارة", "كتاب الحيض", "كتاب الصلاة", "كتاب الْمَسَاجِدِ وَمَوَاضِعِ الصَّلاَةِ", "كتاب صلاة المسافرين وقصرها", "كتاب الجمعة", "كتاب صلاة العيدين", "كتاب صلاة الاستسقاء‏", "كتاب الكسوف", "كتاب الجنائز", "كتاب الزكاة", "كتاب الصيام", "كتاب الاعتكاف", "كتاب الحج", "كتاب النكاح", "كتاب الرضاع", "كتاب الطلاق", "كتاب اللعان", "كتاب العتق", "كتاب البيوع", "كتاب المساقاة", "كتاب الفرائض", "كتاب الهبات", "كتاب الوصية", "كتاب النذر", "كتاب الأيمان", "كتاب القسامة والمحاربين والقصاص والديات", "كتاب الحدود", "كتاب الأقضية", "كتاب اللقطة", "كتاب الجهاد والسير", "كتاب الإمارة", "كتاب الصيد والذبائح وما يؤكل من الحيوان", "كتاب الأضاحى", "كتاب الأشربة", "كتاب اللباس والزينة", "كتاب الآداب", "كتاب السلام", "كتاب الألفاظ من الأدب وغيرها", "كتاب الشعر", "كتاب الرؤيا", "كتاب الفضائل", "كتاب فضائل الصحابة رضى الله تعالى عنهم", "كتاب البر والصلة والآداب", "كتاب القدر", "كتاب العلم", "كتاب الذكر والدعاء والتوبة والاستغفار", "كتاب الرقاق", "كتاب التوبة", "كتاب صفات المنافقين وأحكامهم", "كتاب صفة القيامة والجنة والنار", "كتاب الجنة وصفة نعيمها وأهلها", "كتاب الفتن وأشراط الساعة", "كتاب الزهد والرقائق", "كتاب التفسير"];
+const isLocked=(book,number)=>book!=='nawawi'&&number>10;
 function englishKey(s){return String(s||'').normalize('NFKD').toLowerCase().replace(/\([^)]*\)/g,' ').replace(/[’‘'"`]/g,'').replace(/[^a-z0-9 ]/g,' ').replace(/\s+/g,' ').trim()}
 function translationFor(en,lang){
  const key=englishKey(en);let row=CHAPTER_GLOSSARY[key];
@@ -182,6 +184,10 @@ function updateChapters(){
  select.replaceChildren();const first=document.createElement('option');first.value='';
  first.textContent={ara:'جميع الأبواب',tur:'Tüm bölümler',eng:'All chapters',bos:'Sva poglavlja'}[language]||'Sva poglavlja';select.appendChild(first);
  if(!idx)return;
+ if(state.book==='nawawi'){
+  for(let n=1;n<=idx.max;n++){const opt=document.createElement('option');opt.value=String(n);opt.textContent=({ara:'الحديث',tur:'Hadis',eng:'Hadith',bos:'Hadis'}[language])+' '+n;select.appendChild(opt)}
+  select.value=preserve;select.dir=language==='ara'?'rtl':'ltr';select.lang={ara:'ar',tur:'tr',eng:'en',bos:'bs'}[language];return;
+ }
  const localized=chapterTitles.get(language+'-'+state.book)||[];
  const ar=chapterTitles.get('ara-'+state.book)||[];
  const en=chapterTitles.get('eng-'+state.book)||[];
@@ -197,7 +203,7 @@ function updateChapters(){
   const bsName=language==='bos'?bs[String(row.key)]||bs[String(i+1)]||bs[String(row.start)]:'';
   let title='';
   if(language==='eng')title=properLocalized(picked?.name,'eng',enTitle)||enTitle;
-  else if(language==='ara')title=properLocalized(picked?.name,'ara',enTitle)||properLocalized(a?.name,'ara',enTitle)||araCustom[String(row.key)]||araCustom[String(i+1)]||translationFor(enTitle,'ara');
+  else if(language==='ara')title=(state.book==='muslim'?MUSLIM_ARABIC_CHAPTERS[Number(row.key)]:null)||properLocalized(picked?.name,'ara',enTitle)||properLocalized(a?.name,'ara',enTitle)||araCustom[String(row.key)]||araCustom[String(i+1)]||translationFor(enTitle,'ara');
   else if(language==='tur')title=properLocalized(picked?.name,'tur',enTitle)||translationFor(enTitle,'tur');
   else title=bsName||translationFor(enTitle,'bos');
   // An unknown title is explicitly identified by its chapter number rather than mislabeled in English.
@@ -206,7 +212,6 @@ function updateChapters(){
    // nikada izmišljeni naziv, broj ili engleski naslov u drugom jeziku.
    title=properLocalized(a?.name,'ara',enTitle)||properLocalized(row.name,'ara',enTitle)||'';
   }
-
   if(!title){
     // Ne izmišljamo poglavlja niti neprovjerene prijevode.
     optMissingCount++;
@@ -220,7 +225,7 @@ function updateChapters(){
  if(optMissingCount)msg('Neki stvarni naslovi poglavlja još nisu dostupni u izvoru.');
 }
 
- function sync(){num.max=String(max());num.value=String(state.number);const finder=$('hj-find-number');if(finder){finder.max=String(max());finder.value=String(state.number)}
+function sync(){num.max=String(max());num.value=String(state.number);const finder=$('hj-find-number');if(finder){finder.max=String(max());finder.value=String(state.number)}
  const badge=$('hj-total');if(badge)badge.textContent=index()?('Ukupno u arapskom izdanju: '+index().count+' · najviši broj: '+index().max):('Učitavanje numeracije zbirke…');
  $('hj-back').disabled=state.number<=1;$('hj-next').disabled=state.number>=max();
  updateChapters();
@@ -255,118 +260,89 @@ function sectionItems(raw){
  for(const h of (Array.isArray(raw?.hadiths)?raw.hadiths:[])){
   const r=h.reference||{};const key=r.book??r.bookNumber??h.book??h.section;
   const n=Number(h.hadithnumber);
-  if(key!=null&&Number.isInteger(n)&&!referenceStart.has(String(key)))referenceStart.set(String(key),n);
+  if(key!=null && Number.isInteger(n) && n>0){const k=String(key);if(!referenceStart.has(k)||n<referenceStart.get(k))referenceStart.set(k,n)}
  }
  for(const [key,value] of items){
-  const det=details[key]||{};
-  let start=Number(det.hadithnumber_first??det.first??det.start??det.hadithStart);
-  if(!Number.isFinite(start)||start<1)start=referenceStart.get(String(key));
-  if(!Number.isInteger(start)||start<1)continue;
-  list.push({key:String(key),name:String(value||'').trim(),start});
+  const detail=details[key]||{};
+  let name=typeof value==='string'?value:(value?.name||value?.title||value?.section||'');
+  let start=Number(detail.hadithnumber_first??detail.firsthadith??detail.start??detail.hadithnumber??value?.firsthadith??value?.start??referenceStart.get(String(key)));
+  if(!Number.isInteger(start)||start<1)start=referenceStart.get(String(key));
+  if(name&&Number.isInteger(start)&&start>0)list.push({key:String(key),name:String(name),start});
+ }
+ // Support editions that declare chapters as an array of objects, but have no `sections` mapping.
+ if(!list.length&&Array.isArray(names)){
+  for(let i=0;i<names.length;i++){const x=names[i];const key=String(x?.number??x?.id??i+1);const n=Number(x?.firsthadith??x?.start??referenceStart.get(key));const name=x?.name||x?.title;
+   if(name&&Number.isInteger(n)&&n>0)list.push({key,name:String(name),start:n});}
  }
  return list.sort((a,b)=>a.start-b.start);
 }
-async function loadChapters(lang,book){
- const k=lang+'-'+book;
- if(lang==='bos'){updateChapters();return}
- if(!chapterLoads.has(k)){
-  const p=(async()=>{
-   const raw=await fetchJson(BASE+k);
-   const rows=sectionItems(raw);
-   chapterTitles.set(k,rows);
-   return rows;
-  })();
-  chapterLoads.set(k,p);
+async function loadChapters(language,book){
+ if(language==='bos'){
+  if(!chapterTitles.has('eng-'+book))await loadChapters('eng',book);
+  if(!chapterTitles.has('ara-'+book))await loadChapters('ara',book);
+  updateChapters();return;
  }
- try{await chapterLoads.get(k)}catch(e){chapterLoads.delete(k)}
- if(state.book===book&&state.lang===lang)updateChapters();
+ // English section metadata alone cannot prove that the Arabic or Turkish
+ // sections are translated. Keep each language's metadata separate.
+ const id=language+'-'+book;
+ if(chapterTitles.has(id)){if(state.book===book&&state.lang===language)updateChapters();return}
+ if(chapterLoads.has(id))return chapterLoads.get(id);
+ const task=(async()=>{try{
+  const raw=await fetchJson(BASE+id);const chapters=sectionItems(raw);chapterTitles.set(id,chapters);
+  if(state.book===book&&state.lang===language)updateChapters();
+ }catch(e){if(state.book===book&&state.lang===language)msg('Naslovi poglavlja za odabrani jezik nisu dostupni; prikazan je izvorni naziv.');}
+ finally{chapterLoads.delete(id)}})();chapterLoads.set(id,task);return task;
 }
-async function loadIndex(book){
- if(indices.has(book))return indices.get(book);
- const raw=await fetchJson(BASE+'ara-'+book);
- if(!Array.isArray(raw.hadiths))throw Error('Arapsko izdanje nema hadise');
- const ordered=raw.hadiths.map(h=>Number(h.hadithnumber)).filter(n=>Number.isInteger(n)&&n>0);
- const idx={count:ordered.length,max:Math.max(0,...ordered),chapters:sectionItems(raw)};
- if(book==='nawawi')idx.max=Math.max(42,idx.max);
- indices.set(book,idx);
- chapterTitles.set('ara-'+book,idx.chapters);
- sync();
- if(state.lang!=='ara')loadChapters(state.lang,book);
- return idx;
-}
-async function getHadith(lang,book,number){
- const k=lang+'-'+book;
- if(lang==='bos'){
-  const translations=window.HADISJA_BOSANSKI||{};
-  const text=translations[book+':'+number]||translations[k+':'+number];
-  return text?{hadithnumber:number,text}:null;
- }
- const cacheKey=k+':'+number;
- if(cache.has(cacheKey))return cache.get(cacheKey);
- const raw=await fetchJson(BASE+k+'/'+number);
- const hadith=raw?.hadiths?.find(h=>Number(h.hadithnumber)===number)
-   ||raw?.hadiths?.[0]||raw;
- if(!hadith||typeof hadith.text!=='string')return null;
- cache.set(cacheKey,hadith);
- return hadith;
-}
-function makeText(text,lang){
- const p=document.createElement('p');p.className='hj-hadith-body';
- p.textContent=text;
- if(lang==='ara'){p.dir='rtl';p.lang='ar'}
- else if(lang==='tur')p.lang='tr';
- else if(lang==='eng')p.lang='en';
- else p.lang='bs';
- return p;
-}
-let renderToken=0;
-async function render(){
- const token=++renderToken;
- sync();
- [...langs.querySelectorAll('button')].forEach(b=>b.classList.toggle('active',b.dataset.lang===state.lang));
- content.replaceChildren();
- const headline=document.createElement('h3');headline.textContent=friendly()+' — Hadis '+state.number;
- content.appendChild(headline);
- if(state.number>10){
-  const lock=$('hj-lock');if(lock)lock.hidden=false;
-  msg('Hadis '+state.number+' je zaključan. Prvih 10 hadisa je besplatno.');
-  return;
- }
- const lock=$('hj-lock');if(lock)lock.hidden=true;
- msg('Učitavanje hadisa…');
+async function loadIndex(book){if(indices.has(book))return;
  try{
-  await loadIndex(state.book);
-  const hadith=await getHadith(state.lang,state.book,state.number);
-  if(token!==renderToken)return;
-  if(hadith){
-   content.appendChild(makeText(hadith.text,state.lang));
-   msg('');
-  }else if(state.lang==='bos'){
-   content.appendChild(makeText('Naš bosanski prijevod za ovaj hadis još nije unesen.','bos'));
-   msg('Arapski izvornik možeš otvoriti izborom jezika.');
-  }else{
-   msg('Tekst za odabrani hadis nije dostupan u ovom izdanju.');
-  }
- }catch(e){
-  if(token===renderToken)msg('Učitavanje nije uspjelo. Provjeri internet vezu.');
- }
+  // This edition index is used only for navigation; text of locked hadiths is never rendered.
+  const raw=await fetchJson(BASE+'ara-'+book);
+  const items=Array.isArray(raw.hadiths)?raw.hadiths:[];
+  const numbers=items.map(x=>Number(x.hadithnumber)).filter(n=>Number.isInteger(n)&&n>0);
+  if(!numbers.length)throw Error('Nema brojeva');
+  const maxNo=Math.max(...numbers);
+  const chapterRows=sectionItems(raw);chapterTitles.set('ara-'+book,chapterRows);
+  // Preserve actual metadata count and maximum; never substitute the user's approximate counts.
+  indices.set(book,{max:maxNo,count:new Set(numbers).size,chapters:chapterRows});
+  if(state.book===book){sync();msg('Učitana numeracija: '+indices.get(book).count+' hadisa.');loadChapters(state.lang,book);}
+ }catch(e){if(state.book===book)msg('Numeracija nije učitana; privremeni opseg. Provjeri internet.');}
 }
-sel.addEventListener('change',()=>{
- state.book=sel.value;
- state.number=1;
- sync();
- render();
- loadChapters(state.lang,state.book);
-});
-$('hj-back').addEventListener('click',()=>move(-1));
-$('hj-next').addEventListener('click',()=>move(1));
-$('hj-chapter')?.addEventListener('change',e=>{
- if(e.target.value)jump(e.target.value);
-});
-$('hj-search-number')?.addEventListener('click',()=>{
- const value=$('hj-find-number')?.value;
- if(value)jump(value);
-});
+async function load(lang,book,number){const key=lang+'-'+book+'/'+number;if(cache.has(key))return cache.get(key);
+ let item;
+ try{
+  const raw=await fetchJson(BASE+lang+'-'+book+'/'+number);
+  item=Array.isArray(raw.hadiths)?raw.hadiths.find(x=>Number(x.hadithnumber)===number):raw.hadith||raw;
+  if(!item||typeof item.text!=='string'||!item.text.trim())throw Error('Prazan pojedinačni zapis');
+ }catch(error){
+  // Some editions (notably tur-tirmidhi) may fail at the single-hadith
+  // endpoint despite being listed as a full edition. Try that same edition.
+  const editionKey=lang+'-'+book;
+  let raw=fullEditions.get(editionKey);
+  if(!raw){raw=await fetchJson(BASE+editionKey);fullEditions.clear();fullEditions.set(editionKey,raw)}
+  item=(Array.isArray(raw.hadiths)?raw.hadiths:[]).find(x=>Number(x.hadithnumber)===number);
+ }
+ if(lang==='tur'&&book==='tirmidhi'&&item&&typeof item.text==='string'&&!item.text.trim())return {text:'Turski prijevod za hadis '+number+' nije dostupan u izvornom izdanju.',number,missing:true};
+ if(!item||typeof item.text!=='string'||!item.text.trim())throw Error('Nema teksta za ovaj hadis u izabranom izdanju');
+ const data={text:item.text,number:item.hadithnumber??number};cache.set(key,data);if(cache.size>80)cache.delete(cache.keys().next().value);return data;
+}
+function setText(value,lang){content.textContent=String(value??'');content.dir=lang==='ara'?'rtl':'ltr';content.lang={ara:'ar',eng:'en',tur:'tr',bos:'bs'}[lang]}
+async function render(){sync();const {book,number,lang}=state;const token=[book,number,lang].join('|');
+ langs.querySelectorAll('button').forEach(b=>b.classList.toggle('selected',b.dataset.lang===lang));
+ credit.textContent='Autor: Huseini Halil Ibn Ramadan — Romano Islam';
+ if(isLocked(book,number)){$('hj-lock').hidden=false;content.hidden=true;msg('Hadis '+number+' od '+max()+' je zaključan u probnoj verziji.');return}
+ $('hj-lock').hidden=true;content.hidden=false;
+ if(lang==='bos'){const translation=window.HADISJA_BOSANSKI?.[book+':'+number];setText(translation||'Bosanski prijevod za ovaj hadis još nije unesen.',lang);msg(translation?'Autorski bosanski prijevod':'Bosanski prijevod u pripremi');return}
+ setText('Učitavanje…','eng');msg('Učitavanje hadisa '+number+'…');
+ try{const result=await load(lang,book,number);if(token!==[state.book,state.number,state.lang].join('|'))return;
+ setText(result.text,lang);msg(result.missing?'Turski prijevod nedostaje u izvoru.':friendly()+' · Hadis '+result.number+' / '+max())}
+ catch(e){if(token!==[state.book,state.number,state.lang].join('|'))return;setText('Tekst trenutno nije dostupan. Pokušajte ponovo.', 'eng');msg('Greška učitavanja; provjeri vezu ili dostupnost prijevoda.')}
+}
+sel.addEventListener('change',()=>{state.book=sel.value;state.number=1;sync();render();loadIndex(state.book);loadChapters(state.lang,state.book)});
+$('hj-back').addEventListener('click',()=>move(-1));$('hj-next').addEventListener('click',()=>move(1));
+const finder=$('hj-find-number');function findNumber(){jump(finder.value)}
+$('hj-find-button')?.addEventListener('click',findNumber);finder?.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();findNumber()}});
+$('hj-unlock')?.addEventListener('click',()=>msg('Kupovina još nije povezana. VIP je samo demonstracijski prikaz.'));
+$('hj-code-button')?.addEventListener('click',()=>msg('Aktivacijski kodovi još nisu dostupni bez sigurne serverske provjere.'));
 initInput();
 
 // Tekstualna pretraga samo unutar izabrane zbirke i jezika.
@@ -398,6 +374,7 @@ async function getSearchEdition(book,lang) {
  if(editionsCache.has(id))return editionsCache.get(id);
  const raw=await fetchJson(BASE+id);
  if(!Array.isArray(raw.hadiths))throw new Error('Nema tekstova u izdanju');
+ // Bounded cache: one large edition at a time.
  editionsCache.clear();
  editionsCache.set(id,raw.hadiths);
  return raw.hadiths;
@@ -407,17 +384,17 @@ function showSearchResults(){
  for(const row of matches.slice(0,displayCount)){
   const button=document.createElement('button');button.type='button';button.className='hj-word-result';
   const head=document.createElement('strong');
-  head.textContent='Hadis '+row.hadithnumber+(row.hadithnumber>10?' 🔒':'');
+  head.textContent='Hadis '+row.hadithnumber+(isLocked(state.book,row.hadithnumber)?' 🔒':'');
   button.appendChild(head);
   // Do not expose text of locked hadiths in the freemium interface.
-  if(row.hadithnumber<=10){
+  if(!isLocked(state.book,row.hadithnumber)){
     const excerpt=document.createElement('small');
     excerpt.textContent=row.text.replace(/\s+/g,' ').slice(0,155)+(row.text.length>155?'…':'');
     button.appendChild(excerpt);
   }
   button.addEventListener('click',()=>{
     jump(row.hadithnumber);
-    const target=$(row.hadithnumber>10?'hj-lock':'hj-text');
+    const target=$(isLocked(state.book,row.hadithnumber)?'hj-lock':'hj-text');
     target?.scrollIntoView({behavior:'smooth',block:'center'});
   });
   searchResults.appendChild(button);
@@ -459,16 +436,9 @@ window.HADISJA_OTVORI_PRETRAGU=()=>{
  searchPanel.scrollIntoView({behavior:'smooth',block:'start'});
  searchInput.focus({preventScroll:true});
 };
-const control=num.closest('div');
-if(control){
- const total=document.createElement('div');total.id='hj-total';total.className='hj-total';control.after(total);
- const direct=document.createElement('div');direct.className='hj-direct';
- direct.innerHTML='<label for="hj-find-number">Direktan broj hadisa</label><input type="number" id="hj-find-number" min="1" step="1" value="1"><button type="button" id="hj-search-number">Otvori broj</button>';
- total.after(direct);
- direct.querySelector('#hj-search-number').addEventListener('click',()=>jump(direct.querySelector('#hj-find-number').value));
- direct.querySelector('#hj-find-number').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();jump(e.target.value)}});
-}
-credit.textContent='Autor: Huseini Halil Ibn Ramadan — Romano Islam';
-render();
-loadIndex(state.book).catch(()=>msg('Numeraciju zbirke nije moguće učitati.'));
+
+const control=num.closest('div');if(control&&!$('hj-total')){const total=document.createElement('div');total.id='hj-total';total.className='hj-total';total.setAttribute('aria-live','polite');control.appendChild(total)}
+// Chapters are optional and appear after the original book/index metadata is loaded.
+const bookWrap=sel.closest('div');if(bookWrap&&!$('hj-chapter')){const wrapper=document.createElement('div');wrapper.className='hj-chapter-wrap';const label=document.createElement('label');label.htmlFor='hj-chapter';label.textContent='Poglavlja (ako su navedena u izvoru)';const select=document.createElement('select');select.id='hj-chapter';const opt=document.createElement('option');opt.value='';opt.textContent='Sva poglavlja';select.appendChild(opt);select.addEventListener('change',()=>{if(select.value)jump(select.value)});wrapper.append(label,select);bookWrap.appendChild(wrapper)}
+sync();render();loadIndex(state.book);loadChapters(state.lang,state.book);
 })();
