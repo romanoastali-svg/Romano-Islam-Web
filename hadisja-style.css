@@ -1,0 +1,54 @@
+/* HADISJA WEB: standalone PC layout, no APP header/drawer */
+:root{--green:#123c2c;--deep:#08271d;--gold:#d7b669;--cream:#fff8e8}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;width:100%;background:var(--deep);color:var(--cream);font-family:Arial,Helvetica,sans-serif}body{overflow-x:hidden}
+.web-hero{min-height:138px;padding:24px clamp(24px,4vw,72px);background:linear-gradient(110deg,#0a2c20,#18523c);border-bottom:3px solid #c59e51;display:grid;grid-template-columns:1fr 2fr 1fr;align-items:center;gap:16px}
+.web-quran{font-family:Georgia,serif;color:#f5dca1;text-decoration:none;font-size:clamp(28px,3vw,47px);font-weight:bold;letter-spacing:.09em}
+.web-brand{text-align:center;font-family:Georgia,serif}.brand-name{font-size:clamp(24px,2.8vw,42px);color:#ead299;letter-spacing:.13em}.brand-sub{font-size:clamp(10px,1vw,14px);letter-spacing:.1em;margin-top:9px;color:#eee0c1}
+.web-logo{justify-self:end;display:flex;align-items:center}.web-logo img{display:block;width:clamp(75px,8vw,112px);height:clamp(75px,8vw,112px);border-radius:50%;object-fit:cover;border:2px solid #bc9b56}
+.web-nav{display:flex;align-items:center;flex-wrap:wrap;gap:0;background:#f7f7f1;color:#173928;border-bottom:2px solid #bb9857;padding:0 clamp(12px,3vw,55px);min-height:52px}.web-nav a{padding:16px 15px;text-decoration:none;color:#173928;font-weight:700;font-size:14px}.web-nav a:hover,.web-nav .current{background:#e3d7b6}
+.web-tools{display:flex;gap:12px;flex-wrap:wrap;align-items:center;padding:10px clamp(15px,3vw,56px);background:linear-gradient(180deg,#ddb96b,#bf9951);border-bottom:2px solid #84632b}
+.web-tools button{border:1px solid #80632e;background:#f8e5b0;color:#1f3d2a;border-radius:5px;font-size:15px;font-weight:700;padding:9px 20px;cursor:pointer}
+.web-tools button:hover{background:#fff4d5}
+.web-toc{padding:20px clamp(16px,3vw,56px);background:#154230;border-bottom:1px solid #bc9c58}.web-toc[hidden]{display:none}.web-toc h2{font-size:18px;color:#f5d88d}.web-toc #web-toc-links{display:flex;flex-wrap:wrap;gap:10px}.web-toc button{background:#234e37;color:#f3dfac;border:1px solid #bc9c58;border-radius:6px;padding:10px 16px;cursor:pointer}
+.web-main{width:100%;min-height:calc(100dvh - 247px);padding:18px clamp(14px,2.6vw,50px) 42px;background:#103a29}.web-main>h1{margin:0 0 12px;color:#e9c77a;font:700 clamp(20px,2vw,30px) Georgia,serif;letter-spacing:.08em}
+#hadisja-reader{width:100%;max-width:none;margin:0;min-height:calc(100dvh - 330px);border-radius:8px}#hadisja-reader .hj-text{min-height:clamp(310px,44dvh,850px)}
+@media(max-width:800px){.web-hero{min-height:98px;padding:15px;grid-template-columns:1fr 1fr}.web-brand{display:none}.web-quran{font-size:24px}.web-logo img{width:62px;height:62px}.web-nav a{padding:12px 10px;font-size:13px}.web-main{padding:14px 12px 30px}.web-tools{gap:5px;padding:7px}.web-tools button{font-size:12px;padding:8px 10px}}
+
+/* All styles scoped to HADISJA; leaves every other Romano Islam area intact. */
+#hadisja-reader{box-sizing:border-box;color:#f5eac6;background:#123529;border:1px solid #b79749;border-radius:18px;padding:clamp(16px,3vw,28px);max-width:1180px;margin:0 auto;box-shadow:0 8px 28px #0002}#hadisja-reader *{box-sizing:border-box}#hadisja-reader .hj-intro{color:#d6cba9;margin:4px 0 22px}#hadisja-reader .hj-controls{display:grid;grid-template-columns:2fr 1fr;gap:14px}#hadisja-reader label{display:block;color:#e5c978;font-weight:650;margin-bottom:6px}#hadisja-reader select,#hadisja-reader input{width:100%;border:1px solid #988249;background:#0b281d;color:#fff3cd;border-radius:9px;padding:12px;font:inherit}#hadisja-reader .hj-langs{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0}#hadisja-reader button{font:inherit;cursor:pointer;border:1px solid #bda259;color:#f7dc8c;background:#214834;border-radius:10px;padding:10px 14px}#hadisja-reader button.selected,#hadisja-reader button:hover{background:#d2ad57;color:#1b3024}#hadisja-reader button:disabled{opacity:.4;cursor:default}#hadisja-reader .hj-text{background:#0c281f;border:1px solid #446749;border-radius:14px;min-height:160px;padding:22px;white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.85;font-size:clamp(17px,2vw,23px)}#hadisja-reader .hj-text[dir=rtl]{font-family:serif;line-height:2.2;font-size:clamp(23px,2.7vw,31px)}#hadisja-reader .hj-nav{display:flex;justify-content:space-between;gap:12px;margin-top:18px}#hadisja-reader .hj-status{min-height:24px;margin:14px 0;color:#ebd99e}#hadisja-reader .hj-credit{font-size:12px;color:#c9c0a6;margin-top:16px}#hadisja-reader .hj-lock{border:2px solid #d5b363;border-radius:16px;padding:24px;margin:18px 0;background:linear-gradient(145deg,#1d4430,#0c241c);text-align:center}#hadisja-reader .hj-lock h3{color:#f1d687;margin:0 0 8px}#hadisja-reader .hj-lock p{color:#ebdfbb}#hadisja-reader .hj-code{display:flex;gap:8px;margin-top:18px}#hadisja-reader .hj-code input{flex:1;min-width:0}#hadisja-reader .hj-note{font-size:12px;color:#e4cfa6}#hadisja-reader [hidden]{display:none!important}@media(max-width:650px){#hadisja-reader .hj-controls{grid-template-columns:1fr}#hadisja-reader .hj-code{flex-direction:column}#hadisja-reader .hj-nav{gap:6px}#hadisja-reader .hj-nav button{padding:10px}}
+
+
+/* PC full-width reading area: override old mobile-reader max-width safely */
+@media(min-width:801px){#hadisja-reader{width:100%;max-width:none;margin:0;border-radius:8px}#hadisja-reader .hj-text{min-height:48vh}}
+#hadisja-reader .hj-total{font-size:13px;color:#e8d6a7;margin-top:7px}
+#hadisja-reader .hj-chapter-wrap{margin-top:12px}
+
+/* PC full-width reading area: override old mobile-reader max-width safely */
+@media(min-width:801px){#hadisja-reader{width:100%;max-width:none;margin:0;border-radius:8px}#hadisja-reader .hj-text{min-height:48vh}}
+#hadisja-reader .hj-total{font-size:13px;color:#e8d6a7;margin-top:7px}
+#hadisja-reader .hj-chapter-wrap{margin-top:12px}
+
+/* WEB Quran book graphic in place of plain header text */
+.web-quran-book{width:clamp(84px,9vw,135px);height:auto;display:block;max-width:100%}
+
+/* WEB-only: word and sentence search; no changes to APP or reader design. */
+.web-word-search{padding:16px clamp(14px,3vw,56px);background:#123b2a;border-bottom:2px solid #b99551;color:#f3e0b7}
+.web-word-search[hidden]{display:none}.web-word-search label{font-weight:700;display:block;color:#efce83;margin-bottom:10px}
+.web-word-form-row{display:flex;gap:9px;flex-wrap:wrap}.web-word-form-row input{flex:1 1 280px;min-width:0;background:#092b20;border:1px solid #bd9d5f;color:#fff1cf;padding:12px 14px;border-radius:7px;font-size:16px}
+.web-word-form-row button,.web-word-result,.web-word-more{cursor:pointer;border:1px solid #b99551;border-radius:7px;background:#e5c47b;color:#143625;padding:10px 14px;font-weight:700}
+#web-word-status{min-height:1.5em}#web-word-results{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:9px;max-height:45vh;overflow:auto}
+.web-word-result{text-align:start;display:flex;flex-direction:column;gap:7px;background:#214b37;color:#f7df9d}.web-word-result small{font-size:13px;font-weight:400;color:#f4ead2;line-height:1.4}.web-word-result:hover{background:#315e44}.web-word-more{width:100%}
+
+
+/* Rode o lafja — tekstualna pretraga */
+#hadisja-reader .hj-word-panel{margin:20px 0;padding:16px;border:1px solid #bb995a;border-radius:12px;background:#113729}
+#hadisja-reader .hj-word-panel>label{display:block;font-weight:700;color:#ebca7a;margin-bottom:10px}
+#hadisja-reader .hj-word-form{display:flex;gap:9px;flex-wrap:wrap}
+#hadisja-reader .hj-word-form input{flex:1 1 220px;min-width:0;padding:12px;border-radius:7px;border:1px solid #bb995a;background:#09251e;color:#fff;font-size:16px}
+#hadisja-reader .hj-word-form button,#hadisja-reader .hj-word-more{border:1px solid #bb995a;background:#e8c978;color:#173729;padding:11px 14px;border-radius:7px;font-weight:700;cursor:pointer}
+#hadisja-reader .hj-word-form button:disabled{opacity:.6;cursor:wait}
+#hadisja-reader .hj-word-results{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:9px;max-height:360px;overflow:auto}
+#hadisja-reader .hj-word-result{display:flex;flex-direction:column;gap:6px;text-align:start;padding:12px;border-radius:8px;border:1px solid #a88750;background:#214b38;color:#f5dd98;cursor:pointer}
+#hadisja-reader .hj-word-result small{font-weight:400;font-size:13px;color:#f6ead5;line-height:1.5}
+#hadisja-reader .hj-word-result:hover{background:#2b6046}
+#hadisja-reader .hj-word-status{min-height:20px}
