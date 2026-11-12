@@ -163,6 +163,8 @@ const CHAPTER_GLOSSARY={
  'obligatory charity tax':['كتاب الزكاة','Zekât','Zekat'],
  'obligatory charity':['كتاب الزكاة','Zekât','Zekat']
 };
+// Arapski nazivi prema redoslijedu poglavlja: https://sunnah.com/muslim
+const MUSLIM_ARABIC_CHAPTERS=["المقدمة", "كتاب الإيمان", "كتاب الطهارة", "كتاب الحيض", "كتاب الصلاة", "كتاب الْمَسَاجِدِ وَمَوَاضِعِ الصَّلاَةِ", "كتاب صلاة المسافرين وقصرها", "كتاب الجمعة", "كتاب صلاة العيدين", "كتاب صلاة الاستسقاء‏", "كتاب الكسوف", "كتاب الجنائز", "كتاب الزكاة", "كتاب الصيام", "كتاب الاعتكاف", "كتاب الحج", "كتاب النكاح", "كتاب الرضاع", "كتاب الطلاق", "كتاب اللعان", "كتاب العتق", "كتاب البيوع", "كتاب المساقاة", "كتاب الفرائض", "كتاب الهبات", "كتاب الوصية", "كتاب النذر", "كتاب الأيمان", "كتاب القسامة والمحاربين والقصاص والديات", "كتاب الحدود", "كتاب الأقضية", "كتاب اللقطة", "كتاب الجهاد والسير", "كتاب الإمارة", "كتاب الصيد والذبائح وما يؤكل من الحيوان", "كتاب الأضاحى", "كتاب الأشربة", "كتاب اللباس والزينة", "كتاب الآداب", "كتاب السلام", "كتاب الألفاظ من الأدب وغيرها", "كتاب الشعر", "كتاب الرؤيا", "كتاب الفضائل", "كتاب فضائل الصحابة رضى الله تعالى عنهم", "كتاب البر والصلة والآداب", "كتاب القدر", "كتاب العلم", "كتاب الذكر والدعاء والتوبة والاستغفار", "كتاب الرقاق", "كتاب التوبة", "كتاب صفات المنافقين وأحكامهم", "كتاب صفة القيامة والجنة والنار", "كتاب الجنة وصفة نعيمها وأهلها", "كتاب الفتن وأشراط الساعة", "كتاب الزهد والرقائق", "كتاب التفسير"];
 function englishKey(s){return String(s||'').normalize('NFKD').toLowerCase().replace(/\([^)]*\)/g,' ').replace(/[’‘'"`]/g,'').replace(/[^a-z0-9 ]/g,' ').replace(/\s+/g,' ').trim()}
 function translationFor(en,lang){
  const key=englishKey(en);let row=CHAPTER_GLOSSARY[key];
@@ -181,6 +183,16 @@ function updateChapters(){
  select.replaceChildren();const first=document.createElement('option');first.value='';
  first.textContent={ara:'جميع الأبواب',tur:'Tüm bölümler',eng:'All chapters',bos:'Sva poglavlja'}[language]||'Sva poglavlja';select.appendChild(first);
  if(!idx)return;
+ if(state.book==='nawawi'){
+  for(let n=1;n<=42;n++){
+   const opt=document.createElement('option');opt.value=String(n);
+   opt.textContent=({ara:'الحديث',tur:'Hadis',eng:'Hadith',bos:'Hadis'}[language])+' '+n+(n>10?' 🔒':'');
+   select.appendChild(opt);
+  }
+  select.dir=language==='ara'?'rtl':'ltr';select.lang={ara:'ar',tur:'tr',eng:'en',bos:'bs'}[language];
+  if(Array.from(select.options).some(o=>o.value===preserve))select.value=preserve;
+  return;
+ }
  const localized=chapterTitles.get(language+'-'+state.book)||[];
  const ar=chapterTitles.get('ara-'+state.book)||[];
  const en=chapterTitles.get('eng-'+state.book)||[];
@@ -196,7 +208,7 @@ function updateChapters(){
   const bsName=language==='bos'?bs[String(row.key)]||bs[String(i+1)]||bs[String(row.start)]:'';
   let title='';
   if(language==='eng')title=properLocalized(picked?.name,'eng',enTitle)||enTitle;
-  else if(language==='ara')title=araCustom[String(row.key)]||properLocalized(picked?.name,'ara',enTitle)||properLocalized(a?.name,'ara',enTitle)||translationFor(enTitle,'ara');
+  else if(language==='ara')title=araCustom[String(row.key)]||(state.book==='muslim'?MUSLIM_ARABIC_CHAPTERS[Number(row.key)]:'')||properLocalized(picked?.name,'ara',enTitle)||properLocalized(a?.name,'ara',enTitle)||translationFor(enTitle,'ara');
   else if(language==='tur')title=properLocalized(picked?.name,'tur',enTitle)||translationFor(enTitle,'tur');
   else title=bsName||translationFor(enTitle,'bos');
   // An unknown title is explicitly identified by its chapter number rather than mislabeled in English.
@@ -280,6 +292,9 @@ async function loadIndex(book){if(indices.has(book))return;
 async function load(lang,book,number){const key=lang+'-'+book+'/'+number;if(cache.has(key))return cache.get(key);
  const raw=await fetchJson(BASE+lang+'-'+book+'/'+number);
  const item=Array.isArray(raw.hadiths)?raw.hadiths.find(x=>Number(x.hadithnumber)===number):raw.hadith||raw;
+ if(lang==='tur'&&book==='tirmidhi'&&item&&typeof item.text==='string'&&!item.text.trim()){
+  return {text:'Turski prijevod za hadis '+number+' nije dostupan u izvornom izdanju.',number};
+ }
  if(!item||typeof item.text!=='string'||!item.text.trim())throw Error('Nema teksta');
  const data={text:item.text,number:item.hadithnumber??number};cache.set(key,data);if(cache.size>80)cache.delete(cache.keys().next().value);return data;
 }
