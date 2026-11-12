@@ -1,4 +1,5 @@
-Izvor podataka: fawazahmed0/hadith-api @1, jsDelivr CDN.
+Podaci i porijeklo izvora za HADISJA
+Hadiski podaci: fawazahmed0/hadith-api, izdanje @1, jsDelivr CDN.
 https://github.com/fawazahmed0/hadith-api
-Prijevodi i tekstovi nisu nezavisno verificirani.
-Ovaj paket je privatna radna verzija.
+Tekstovi i prijevodi nisu nezavisno verificirani.
+Ova evidencija izvora nije potvrda da svaki prijevod ima dozvolu za komercijalnu prodaju.
