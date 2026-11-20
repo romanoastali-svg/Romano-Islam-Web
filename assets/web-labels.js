@@ -23,8 +23,7 @@ function bind(d,embedded=false){
  const observer=new d.defaultView.MutationObserver(()=>apply(d,embedded));observer.observe(d.body,{subtree:true,childList:true,characterData:true});
  d.addEventListener('click',event=>{
   const el=event.target.closest('[data-page="aplikacija"],[data-module-url],a[href]');if(!el)return;
-  const url=el.getAttribute('data-module-url')||el.getAttribute('href')||'';
-  if(el.dataset.page!=='aplikacija'&&!/^(?:https?:\/\/)?app\.romano-islam\.de(?:\/|$)/i.test(url)&&url!=='#aplikacija')return;
+  if (el.dataset.page !== 'aplikacija' && el.getAttribute('href') !== '#aplikacija') return;
   event.preventDefault();event.stopImmediatePropagation();
   let dialog=d.getElementById('ri-web-app-message');if(!dialog){dialog=d.createElement('dialog');dialog.id='ri-web-app-message';dialog.style.cssText='max-width:90vw;width:560px;padding:28px;border:1px solid #b9954d;border-radius:14px;background:#082d20;color:#e1c47f;font:20px/1.6 system-ui;text-align:center';const p=d.createElement('p');p.textContent='Aplikacija panda nane dostupno, čerela pe';const close=d.createElement('button');close.type='button';close.textContent='×';close.setAttribute('aria-label','Phand');close.style.cssText='padding:4px 18px;font-size:25px;background:#d9c58d;color:#102c26;border:0;border-radius:8px';close.onclick=()=>dialog.close();dialog.append(p,close);d.body.append(dialog);}dialog.showModal();
  },true);

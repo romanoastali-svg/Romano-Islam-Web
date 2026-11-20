@@ -1,4 +1,4 @@
-const CACHE='romano-islam-portal-20261120';
+const CACHE='romano-islam-portal-20261120-nav-v1';
 const FILES=["", "assets/romano-data.js", "assets/romano-pages.js", "assets/web-original.css", "assets/modular-layout.css", "assets/web-labels.js", "assets/web-menu.js", "readers/korkut-reader.js"];
 
 self.addEventListener('install',event=>{event.waitUntil((async()=>{const cache=await caches.open(CACHE);await cache.addAll(FILES.map(path=>new Request(new URL(path,self.registration.scope),{cache:'reload'})));await self.skipWaiting();})());});
