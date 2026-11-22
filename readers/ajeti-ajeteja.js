@@ -1,5 +1,5 @@
-// APP: postojeće poveznice Ajeti Ajeteja. Redoslijed i izvori su sačuvani.
-// Dodaj samo veze potvrđene u izvoru. Ne popunjavaj praznine nagađanjem.
+// Podaci Ajeti Ajeteja. Sačuvani su postojeći redoslijed, oznake i izvori.
+// Unosi samo provjerene poveznice. Ako ih nema, ne dodaj ništa.
 window.RI_AJETI_AJETEJA_POVEZNICE = [
   {
     "id": "bismillah",
