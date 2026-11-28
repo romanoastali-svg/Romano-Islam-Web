@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="bs">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="referrer" content="no-referrer"><meta name="robots" content="noindex">
+<title>Moj račun — ROMANO ISLAM</title>
+<style>
+:root{color-scheme:dark;font-family:system-ui,-apple-system,sans-serif;background:#082c23;color:#faf7eb}*{box-sizing:border-box}body{margin:0;min-height:100svh;display:grid;place-items:center;padding:24px 16px}main{width:100%;max-width:460px}header{text-align:center;margin-bottom:28px}.brand{color:#e3c577;font:700 1.6rem Georgia,serif;letter-spacing:.08em}header p{color:#d2dacd}article{background:#103b30;border:1px solid #5e7051;border-radius:20px;padding:26px}h1{font-size:1.5rem;margin:0 0 12px}p{line-height:1.6}.tabs{display:flex;gap:8px;margin:20px 0}.tabs button{flex:1;background:transparent;color:#ede4c7;border:1px solid #7b815b}.tabs button[aria-pressed=true]{background:#e3c577;color:#122b23}button,input{font:inherit;font-size:1rem;border-radius:9px;min-height:48px}button{cursor:pointer;border:0;background:#e3c577;color:#122b23;padding:11px 16px;font-weight:650}button:disabled{opacity:.6;cursor:wait}label{display:block;margin:18px 0 7px}input{width:100%;padding:12px;color:#fff;background:#082c23;border:1px solid #7d8e75}input:focus,button:focus-visible,a:focus-visible{outline:3px solid #f2dba2;outline-offset:3px}.wide{width:100%;margin-top:22px}.link{background:transparent;color:#e3c577;text-decoration:underline;padding:9px 0;min-height:44px;font-weight:400}a{color:#e3c577}small{display:block;margin-top:7px;line-height:1.6;color:#c5d0c5}.notice{padding:12px;border-radius:9px;background:#163f35;border:1px solid #8eaa80;overflow-wrap:anywhere;margin:18px 0}.notice.error{border-color:#f0a5a5;color:#ffe0e0}[hidden]{display:none!important}.muted{color:#c5d0c5}footer{text-align:center;margin-top:24px}#account-email{overflow-wrap:anywhere}#password-again-wrap{margin-bottom:8px}
+</style>
+</head>
+<body>
+<main>
+<header><div class="brand">ROMANO ISLAM</div><p>Moj račun</p></header>
+<article aria-labelledby="title">
+<h1 id="title">Prijava</h1>
+<p id="intro" class="muted">Prijavi se svojim e-mailom i lozinkom.</p>
+<p id="status" class="notice" role="status" aria-live="polite" hidden></p>
+<div class="tabs" id="tabs"><button type="button" id="login-tab" aria-pressed="true">Prijava</button><button type="button" id="signup-tab" aria-pressed="false">Registracija</button></div>
+<form id="auth-form">
+<div id="email-wrap"><label for="email">E-mail</label><input id="email" type="email" autocomplete="email" required maxlength="254" autocapitalize="none" spellcheck="false"></div>
+<div id="password-wrap"><label for="password">Lozinka</label><input id="password" type="password" autocomplete="current-password" required minlength="6" maxlength="128"><small id="minimum" hidden>Najmanje 6 znakova.</small></div>
+<div id="password-again-wrap" hidden><label for="password-again">Ponovi lozinku</label><input id="password-again" type="password" autocomplete="new-password" minlength="6" maxlength="128"></div>
+<button id="submit" type="submit" class="wide" disabled>Učitavanje…</button>
+</form>
+<button type="button" class="link" id="forgot">Zaboravljena lozinka?</button><br>
+<button type="button" class="link" id="resend" hidden>Ponovo pošalji potvrdu e-maila</button>
+<button type="button" class="link" id="back" hidden>Nazad na prijavu</button>
+<section id="account" hidden><p>Prijavljen/a si kao:</p><p id="account-email"></p><button type="button" id="change-password" class="link">Promijeni lozinku</button><button type="button" id="logout" class="wide">Odjavi se</button></section>
+<noscript><p>Za prijavu uključi JavaScript u pregledniku.</p></noscript>
+</article>
+<footer><a href="https://www.romano-islam.de/">Početna stranica</a></footer>
+</main>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+'use strict';
+(() => {
+const URL_API='https://tvrssnhqmcthptusyynk.supabase.co';
+const PUBLIC_KEY='sb_publishable_Z7qgxUiOmOzWMOltfs86EQ_YmHPmGBt';
+const CALLBACK='https://www.romano-islam.de/prijava.html';
+const $=id=>document.getElementById(id);
+let client, mode='login', user=null, busy=false, passwordFlow=false;
+const initialHash=new URLSearchParams(location.hash.slice(1));
+const initialQuery=new URLSearchParams(location.search);
+const callbackType=initialHash.get('type');
+passwordFlow=['recovery','invite'].includes(callbackType);
+function message(text,error=false){$('status').textContent=text;$('status').classList.toggle('error',error);$('status').hidden=!text;}
+function render(){
+ const account=!!user && mode!=='password';
+ $('account').hidden=!account;$('auth-form').hidden=account;$('tabs').hidden=account||mode==='password'||mode==='reset';
+ $('email-wrap').hidden=mode==='password';$('email').required=mode!=='password';
+ $('password-wrap').hidden=mode==='reset';$('password').required=mode!=='reset';
+ const confirm=mode==='signup'||mode==='password';$('password-again-wrap').hidden=!confirm;$('password-again').required=confirm;
+ $('password').autocomplete=confirm?'new-password':'current-password';$('minimum').hidden=!confirm;
+ $('forgot').hidden=account||mode!=='login';$('resend').hidden=account||!['login','signup'].includes(mode);
+ $('back').hidden=!['password','reset'].includes(mode);
+ $('login-tab').setAttribute('aria-pressed',String(mode==='login'));$('signup-tab').setAttribute('aria-pressed',String(mode==='signup'));
+ const titles={login:'Prijava',signup:'Registracija',reset:'Oporavak lozinke',password:'Postavi lozinku'};
+ const intros={login:'Prijavi se svojim e-mailom i lozinkom.',signup:'Napravi račun i potvrdi svoju e-mail adresu.',reset:'Poslat ćemo ti link za postavljanje nove lozinke.',password:'Upiši i potvrdi svoju novu lozinku.'};
+ $('title').textContent=account?'Moj račun':titles[mode];$('intro').textContent=account?'':intros[mode];
+ $('account-email').textContent=user?.email||'';
+ $('submit').textContent=busy?'Sačekaj…':({login:'Prijavi se',signup:'Registruj se',reset:'Pošalji link',password:'Sačuvaj lozinku'})[mode];
+ document.querySelectorAll('button').forEach(b=>b.disabled=busy);
+}
+function setMode(next){mode=next;$('password').value='';$('password-again').value='';message('');render();}
+function errorMessage(e){
+ const map={invalid_credentials:'E-mail ili lozinka nisu ispravni.',email_not_confirmed:'Prvo potvrdi e-mail adresu. Možeš ponovo poslati potvrdu.',weak_password:'Lozinka ne ispunjava uslove. Koristi najmanje 6 znakova.',same_password:'Nova lozinka mora biti drugačija od prethodne.',over_email_send_rate_limit:'Previše zahtjeva za slanje e-maila. Sačekaj pa pokušaj ponovo.',over_request_rate_limit:'Previše pokušaja. Sačekaj pa pokušaj ponovo.',otp_expired:'Link je istekao ili je već upotrijebljen. Zatraži novi link.',signup_disabled:'Registracija trenutno nije dostupna.'};
+ return map[e?.code]||(e?.name==='AuthRetryableFetchError'||e instanceof TypeError?'Povezivanje nije uspjelo. Provjeri internet i pokušaj ponovo.':'Zahtjev nije uspio. Pokušaj ponovo ili zatraži novi link.');
+}
+async function run(action){if(busy)return;busy=true;render();message('');try{await action();}catch(e){message(errorMessage(e),true);}finally{busy=false;render();}}
+function email(){return $('email').value.trim();}
+function validEmail(){return $('email').reportValidity();}
+$('login-tab').onclick=()=>setMode('login');$('signup-tab').onclick=()=>setMode('signup');$('forgot').onclick=()=>setMode('reset');
+$('back').onclick=()=>{passwordFlow=false;setMode('login');};
+$('change-password').onclick=()=>setMode('password');
+$('auth-form').onsubmit=event=>{event.preventDefault();if(!$('auth-form').reportValidity())return;
+ run(async()=>{
+ const password=$('password').value;
+ if(['signup','password'].includes(mode)&&password!==$('password-again').value){message('Lozinke se ne podudaraju.',true);return;}
+ if(mode==='login'){
+  const {data,error}=await client.auth.signInWithPassword({email:email(),password});if(error)throw error;user=data.user;passwordFlow=false;message('Uspješno si prijavljen/a.');
+ }else if(mode==='signup'){
+  const {data,error}=await client.auth.signUp({email:email(),password,options:{emailRedirectTo:CALLBACK}});if(error)throw error;
+  if(data.session){user=data.user;message('Račun je napravljen i prijava je uspjela.');}else message('Provjeri e-mail i potvrdi adresu. Ako već imaš račun, prijavi se ili zatraži novu lozinku. Provjeri i Spam.');
+ }else if(mode==='reset'){
+  const {error}=await client.auth.resetPasswordForEmail(email(),{redirectTo:CALLBACK});if(error)throw error;
+  message('Ako račun postoji, dobit ćeš link za novu lozinku. Provjeri inbox i Spam.');
+ }else if(mode==='password'){
+  if(!user){message('Prvo otvori važeći link iz e-maila ili se prijavi.',true);return;}
+  const {error}=await client.auth.updateUser({password});if(error)throw error;
+  passwordFlow=false;mode='login';message('Lozinka je sačuvana.');
+ }
+ $('password').value='';$('password-again').value='';
+ });};
+$('resend').onclick=()=>{if(!validEmail())return;run(async()=>{const {error}=await client.auth.resend({type:'signup',email:email(),options:{emailRedirectTo:CALLBACK}});if(error)throw error;message('Ako račun čeka potvrdu, poslan je novi e-mail. Provjeri i Spam.');});};
+$('logout').onclick=()=>run(async()=>{const {error}=await client.auth.signOut();if(error)throw error;user=null;passwordFlow=false;mode='login';message('Odjavljen/a si.');});
+async function init(){
+ if(!window.supabase){message('Prijava se nije učitala. Provjeri internet i osvježi stranicu.',true);return;}
+ if(!['https:','http:'].includes(location.protocol)){message('Ovu stranicu treba otvoriti preko web-adrese, nakon postavljanja na stranicu.',true);return;}
+ try{
+ client=window.supabase.createClient(URL_API,PUBLIC_KEY,{auth:{detectSessionInUrl:true,persistSession:true,autoRefreshToken:true,flowType:'implicit'}});
+ client.auth.onAuthStateChange((event,session)=>{
+  user=session?.user||null;
+  if(event==='PASSWORD_RECOVERY'){passwordFlow=true;mode='password';}
+  if(user&&passwordFlow)mode='password';
+  if(!user&&event==='SIGNED_OUT'){passwordFlow=false;mode='login';}
+  render();
+ });
+ const {error:sessionError}=await client.auth.getSession();if(sessionError)throw sessionError;
+ const {data,error}=await client.auth.getUser();
+ if(error&&error.name!=='AuthSessionMissingError')throw error;
+ user=data?.user||null;if(user&&passwordFlow)mode='password';
+ const callbackError=initialHash.get('error')||initialQuery.get('error');
+ if(callbackError){passwordFlow=false;mode='login';message('Link nije važeći ili je istekao. Zatraži novi link.',true);}
+ if(location.hash)history.replaceState(null,'',location.pathname+location.search);
+ render();
+ }catch(e){passwordFlow=false;mode='login';render();message(errorMessage(e),true);}
+}
+init();
+})();
+</script>
+</body>
+</html>
